@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+Route::controller(CustomAuthController::class)->group(function () {
+    //login
+    Route::get('login', 'login')->middleware('AlreadyLoggedIn');
+    Route::post('login', 'loginUser')->name('login-user');
+    //logout
+    Route::get('logout', 'logout');
+});
+
+Route::middleware(['isLoggedIn'])->group(function () {
+
+    Route::get('/', function () {
+        return view('index');
+    });
 });
