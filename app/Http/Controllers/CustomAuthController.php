@@ -17,14 +17,14 @@ class CustomAuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:4|max:12',
+            'password' => 'required',
         ]);
 
         $user = User::where('email', '=', $request->email)->first();
 
         if ($user) {
             if (User::where('password', '=',$request->password)
-                ->orWhere('email','=',$request->email)->first()) {
+                ->Where('email','=',$request->email)->first()) {
 
                 $request->session()->put('loginId', $user->id);
                 return redirect('/');
