@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\CalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,9 @@ Route::controller(CustomAuthController::class)->group(function () {
 
 Route::middleware(['isLoggedIn'])->group(function () {
 
-    Route::get('/', function () {
-        return view('index');
-    });
+    Route::get('/', [CalendarController::class,'dashboard']);
+
+    Route::get('cal',[CalendarController::class,'index']);
+
+    Route::post('cal-add', [CalendarController::class,'calAdd'])->name('cal-add');
 });
