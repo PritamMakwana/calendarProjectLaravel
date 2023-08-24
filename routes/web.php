@@ -48,9 +48,10 @@ Route::middleware(['isLoggedIn'])->group(function () {
 
     Route::put('/change/{id}/status', [ProfessionalController::class, 'changeStatus'])->name('change.status');
 
-    // ->name('change.status');
 
-    // Route::get('/change-status/{id}', 'YourControllerName@changeStatus')->name('change.status');
+    //pdf download
+    Route::get('{id}/pdf',[ProfessionalController::class,'getPdf']);
+
 
 
 

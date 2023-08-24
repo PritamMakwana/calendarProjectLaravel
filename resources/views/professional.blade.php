@@ -94,6 +94,8 @@
                       <td>{{ $prof->regi_time }}</td>
                       <td>
                         <a href="{{url($prof->id.'/delete')}}" onclick="return confirm('Are you sure,you want to delete - {{ $prof->name }} ?')" class="btn-sm btn btn-danger">Delete</a>
+
+                        <a href="{{url($prof->id.'/pdf')}}"  class="btn-sm btn btn-info">Download</a>
                       </td>
                     </tr>
                     @endforeach

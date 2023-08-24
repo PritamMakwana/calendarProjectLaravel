@@ -6,7 +6,10 @@ use App\Models\Professional;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfessionalFromRequest;
 use Carbon\Carbon;
-use Storage;
+use Illuminate\Support\Facades\Storage;
+use PDF;
+use Intervention\Image\Facades\Image;
+
 
 class ProfessionalController extends Controller
 {
@@ -74,13 +77,27 @@ class ProfessionalController extends Controller
         $Professional->status = !$Professional->status;
         $Professional->save();
         return redirect()->back();
-
-        // return response(['success' =>   $Professional->status ]);
-
-        // $Professional = Professional::findOrFail($Id);
-
-        // $Professional->status = !$Professional->status;
-        // $Professional->save();
-        // return redirect()->back();
     }
+
+
+
+    public function getPdf($Id){
+        // composer require intervention/image
+
+        $data = Professional::find($Id);
+
+        $imagePath = "public/imageShow/{$data->image}";
+        // dd($imagePath, Storage::exists($imagePath));
+
+
+        $image = Image::make(Storage::path($imagePath));
+        // $imageDataUrl = getImageDataUrl($imagePath);
+
+        $pdf = PDF::loadView('pdfLoad', compact('data','image'));
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+    }
+
+
+
 }
