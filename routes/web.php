@@ -41,4 +41,17 @@ Route::middleware(['isLoggedIn'])->group(function () {
 
     Route::post('professional-add',[ProfessionalController::class,'professionalAddData']);
 
+    Route::get('{id}/delete',[ProfessionalController::class,'destroy']);
+
+    // Route::post('changeStatus/{Id}',[ProfessionalController::class,'changeStatus'])->name('changeStatus');
+
+
+    Route::put('/change/{id}/status', [ProfessionalController::class, 'changeStatus'])->name('change.status');
+
+    // ->name('change.status');
+
+    // Route::get('/change-status/{id}', 'YourControllerName@changeStatus')->name('change.status');
+
+
+
 });

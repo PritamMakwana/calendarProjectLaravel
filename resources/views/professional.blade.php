@@ -28,6 +28,10 @@
           <div class="row">
             <div class="col-12">
 
+                @if (session('message'))
+                <div class="alert alert-success">{{ session('message') }}</div>
+                @endif
+
               <div class="card">
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -64,7 +68,22 @@
                       <td>{{ $prof->name }}</td>
                       <td>{{ $prof->email }}</td>
                       <td>{{ $prof->mobile }}</td>
-                      <td>{{ $prof->status }}</td>
+                      <td>
+
+                        <form method="POST" action="{{ route('change.status', $prof->id) }}">
+                            @csrf
+                            @method('PUT')
+
+                            @if ($prof->status == 1)
+                            <button type="submit" class="btn btn-success">On</button>
+                            @else
+                            <button type="submit" class="btn btn-danger">Off</button>
+                            @endif
+
+
+                        </form>
+
+                    </td>
                       <td>{{ $prof->address }}</td>
                       <td>
                         @foreach($prof->skill as $value)
@@ -73,7 +92,9 @@
                     </td>
                       <td>{{ $prof->password }}</td>
                       <td>{{ $prof->regi_time }}</td>
-                      <td>Action</td>
+                      <td>
+                        <a href="{{url($prof->id.'/delete')}}" onclick="return confirm('Are you sure,you want to delete - {{ $prof->name }} ?')" class="btn-sm btn btn-danger">Delete</a>
+                      </td>
                     </tr>
                     @endforeach
                     </tbody>
@@ -106,5 +127,4 @@
       </section>
 
 @endsection
-
 

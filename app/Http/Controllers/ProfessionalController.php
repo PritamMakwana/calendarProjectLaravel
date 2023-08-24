@@ -6,6 +6,7 @@ use App\Models\Professional;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfessionalFromRequest;
 use Carbon\Carbon;
+use Storage;
 
 class ProfessionalController extends Controller
 {
@@ -51,7 +52,35 @@ class ProfessionalController extends Controller
         ]);
 
 
-        return redirect('professional');
+        return redirect('professional')->with('message', 'Added Successfully');;
 
+    }
+
+    public function destroy($Id){
+        $Professional = Professional::findOrFail($Id);
+
+        if (Storage::exists('public/imageShow/'.$Professional->image)) {
+            Storage::delete('public/imageShow/'.$Professional->image);
+        }
+
+        $Professional->delete();
+        return redirect('professional')->with('message','Deleted Successfully');
+    }
+
+
+    public function changeStatus($Id){
+
+        $Professional = Professional::where('id', $Id)->first();
+        $Professional->status = !$Professional->status;
+        $Professional->save();
+        return redirect()->back();
+
+        // return response(['success' =>   $Professional->status ]);
+
+        // $Professional = Professional::findOrFail($Id);
+
+        // $Professional->status = !$Professional->status;
+        // $Professional->save();
+        // return redirect()->back();
     }
 }
