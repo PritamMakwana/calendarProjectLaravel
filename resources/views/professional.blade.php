@@ -37,6 +37,10 @@
                 <div class="card-body">
                     <a href="{{url('/professional-add')}}" class="btn btn-primary mb-2">Add Professional</a>
 
+                    <a class="btn btn-warning  mb-2"  href="{{ route('export') }}">
+                              Export  Data
+                      </a>
+
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>

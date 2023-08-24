@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use Intervention\Image\Facades\Image;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportProfessional;
 
 
 class ProfessionalController extends Controller
@@ -96,6 +98,11 @@ class ProfessionalController extends Controller
         $pdf = PDF::loadView('pdfLoad', compact('data','image'));
         // download PDF file with download method
         return $pdf->download('pdf_file.pdf');
+    }
+
+
+    public function exportProfessional(Request $request){
+        return Excel::download(new ExportProfessional, 'Professional.xlsx');
     }
 
 

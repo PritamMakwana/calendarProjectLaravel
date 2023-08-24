@@ -52,7 +52,8 @@ Route::middleware(['isLoggedIn'])->group(function () {
     //pdf download
     Route::get('{id}/pdf',[ProfessionalController::class,'getPdf']);
 
-
+    Route::get('/export',[ProfessionalController::class,
+    'exportProfessional'])->name('export');
 
 
 });
