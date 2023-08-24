@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ProfessionalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,12 @@ Route::middleware(['isLoggedIn'])->group(function () {
     Route::get('cal',[CalendarController::class,'index']);
 
     Route::post('cal-add', [CalendarController::class,'calAdd'])->name('cal-add');
+
+    // Professional
+
+    Route::get('professional',[ProfessionalController::class,'index']);
+    Route::get('professional-add',[ProfessionalController::class,'professionalAdd']);
+
+    Route::post('professional-add',[ProfessionalController::class,'professionalAddData']);
+
 });
