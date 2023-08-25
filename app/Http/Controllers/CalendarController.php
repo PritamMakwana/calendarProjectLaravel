@@ -52,4 +52,38 @@ class CalendarController extends Controller
         return redirect('cal');
 
     }
+
+
+    public function calEdit(Request $request){
+
+        $endexploreDate = explode('-', $request->end);
+
+        // $endexploreDate[2];
+        // $endexploreDate[1];
+		// $endexploreDate[0];
+		// $request->title;
+
+        $Cal = Cal::where('event', '=', $request->title)
+            ->where('year', '=', $endexploreDate[0])
+            ->where('month', '=',$endexploreDate[1])
+            ->where('date', '=', $endexploreDate[2])
+            ->first();
+
+        $startexploreDate = explode('-', $request->start);
+
+        // $startexploreDate[2];
+        // $startexploreDate[1];
+		// $startexploreDate[0];
+
+
+        $Cal->event = $request->title;
+        $Cal->year = $startexploreDate[0];
+        $Cal->month = $startexploreDate[1];
+        $Cal->date = $startexploreDate[2];
+        $Cal->save();
+
+
+        // return response(['success' => $startexploreDate[2]]);
+
+    }
 }

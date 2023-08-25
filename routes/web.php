@@ -34,6 +34,8 @@ Route::middleware(['isLoggedIn'])->group(function () {
 
     Route::post('cal-add', [CalendarController::class,'calAdd'])->name('cal-add');
 
+    Route::put('cal-edit', [CalendarController::class,'calEdit'])->name('cal-edit');
+
     // Professional
 
     Route::get('professional',[ProfessionalController::class,'index']);
@@ -42,9 +44,6 @@ Route::middleware(['isLoggedIn'])->group(function () {
     Route::post('professional-add',[ProfessionalController::class,'professionalAddData']);
 
     Route::get('{id}/delete',[ProfessionalController::class,'destroy']);
-
-    // Route::post('changeStatus/{Id}',[ProfessionalController::class,'changeStatus'])->name('changeStatus');
-
 
     Route::put('/change/{id}/status', [ProfessionalController::class, 'changeStatus'])->name('change.status');
 

@@ -69,7 +69,7 @@
                                             @endforeach
 
 
-                                            <div class="checkbox" style="display: none">
+                                            <div class="checkbox" style="display: none;">
                                                 <label for="drop-remove">
                                                     <input type="checkbox" id="drop-remove">
                                                     remove after drop
@@ -146,6 +146,8 @@
     function ini_events(ele) {
       ele.each(function () {
 
+        console.log("1")
+
 
         // create an Event Object (https://fullcalendar.io/docs/event-object)
         // it doesn't need to have a start or end
@@ -189,6 +191,9 @@
     new Draggable(containerEl, {
       itemSelector: '.external-event',
       eventData: function(eventEl) {
+
+        console.log("2")
+
         return {
           title: eventEl.innerText,
           backgroundColor: window.getComputedStyle( eventEl ,null).getPropertyValue('background-color'),
@@ -224,13 +229,13 @@
     },
     @endforeach
 
-    {
-          title          : 'Global Parents Day',
-          start          : new Date(2023,8,16),
-          backgroundColor: '#00a65a',
-          borderColor    : '#00a65a', //red
-          allDay         : true
-    },
+    // {
+    //       title          : 'Global Parents Day',
+    //       start          : new Date(2023,8,16),
+    //       backgroundColor: '#00a65a',
+    //       borderColor    : '#00a65a', //red
+    //       allDay         : true
+    // },
 
 
         // {
@@ -248,6 +253,7 @@
 
         var rdata  = Object.entries(info);
 
+        // console.log(info);
         $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -288,7 +294,69 @@
           // if so, remove the element from the "Draggable Events" list
           info.draggedEl.parentNode.removeChild(info.draggedEl);
         }
+      },
+    //   edite
+      eventDrop: function (event) {
+var rdata  = Object.entries(event);
+console.log(Object.entries(event));
+
+// console.log(rdata[1][1]['_def']['title']);
+
+
+// console.log(rdata[1][1]['_instance']['range']['start']);
+// console.log(rdata[4][1]['fcSeg']['eventRange']['instance']['range']['start']);
+
+// start_date
+const inputDateString = rdata[1][1]['_instance']['range']['start'];
+const inputDate = new Date(inputDateString);
+const year = inputDate.getFullYear();
+const month = String(inputDate.getMonth() + 1).padStart(2, '0');
+const day = String(inputDate.getDate()).padStart(2, '0');
+const formattedDate = `${year}-${month}-${day}`;
+
+// end_date
+const inputDateStringe = rdata[4][1]['fcSeg']['eventRange']['instance']['range']['start'];
+const inputDatee = new Date(inputDateStringe);
+const yeare = inputDatee.getFullYear();
+const monthe = String(inputDatee.getMonth() + 1).padStart(2, '0');
+const daye = String(inputDatee.getDate()).padStart(2, '0');
+const formattedDatee = `${yeare}-${monthe}-${daye}`;
+
+
+var title = rdata[1][1]['_def']['title'];
+var start_date = formattedDate;
+var end_date = formattedDatee;
+// console.log(title);
+// console.log(start_date);
+// console.log(end_date);
+
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+
+  }
+});
+
+        $.ajax({
+            type: 'PUT',
+            url: "{{ route('cal-edit') }}",
+            data: { 'title':title,
+                    'start': start_date,
+                    'end': end_date
+                    },
+
+            success: function(response){
+                // location.reload();
+                // alert(response.success);
+                // alert("wdawd");
+
+            },
+        });
+
+
       }
+
     });
 
     calendar.render();
@@ -299,6 +367,7 @@
     // Color chooser button
     $('#color-chooser > li > a').click(function (e) {
       e.preventDefault()
+
       // Save color
       currColor = $(this).css('color')
       // Add color effect to button
@@ -312,6 +381,7 @@
       // Get value and make sure it is not null
       var val = $('#new-event').val()
       if (val.length == 0) {
+        console.log("5")
         return
       }
 
